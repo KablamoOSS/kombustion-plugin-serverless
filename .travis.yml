@@ -1,0 +1,56 @@
+language: go
+
+os:
+  - linux
+
+go:
+- 1.10.1
+
+sudo: required
+
+script:
+# Download the dependencies
+- go get -t ./...
+- go generate
+# Run the tests
+- go test ./...
+# Grab the cross compiler
+- go get github.com/karalabe/xgo
+# Compile
+- |
+  # Get the full go repo url
+  REPO=$(pwd |  rev | cut -d'/' -f-3 | rev)
+
+  # Get the name of the app
+  APP="${PWD##*/}"
+
+  # Ensure a fresh build folder
+  rm -rf build && mkdir build
+  # Compile
+  xgo \
+    -dest build/ \
+    -buildmode=plugin  \
+    --targets=darwin/amd64,freebsd/386,freebsd/amd64,freebsd/arm,linux/386,linux/amd64,linux/arm64  \
+    $REPO
+
+  # Package
+  cd build
+  # For each compiled binary, we're repackaging it in a zip with the architecture name, and
+  # renaming the binary to the app name
+  for FILE in $(ls .); do
+    mv $FILE $APP.so
+    tar cvzf ${FILE}.tgz $APP.so
+    rm -f $APP.so
+  done
+  cd ..
+
+# Deploy to Github release on tags
+deploy:
+  provider: releases
+  api_key:
+    secure: kVmBDdBdPjUVJbIIVfyLXAIlQlOTuOnC3jC45xWIdTeG1G7AAKZWgsewg5Yynp0DwlqQ5k1MPpUoVt99wfaXXe/ylN1jP2tC0mSaibr+7HtaAwqEaZi8IadF8fpzeK68vQF6WvLz1XWxIqQMrvCibBEU4+RK+ecukgAZD5vicb4Tkg1VgCgHyoZkYkj48ca3vjoYM/EfI+jh8EAq9ZXetlaI/pRJJvH1svU2NPhDXxX/jWZF55UJJm1go+tJHePgkbA4MOfjWp4titKiZW55loiYXRdMA7wqNldoVAPENjiRlIERvGZxli5274cwE5v0ndChpCqpfQiCFa33ntLNgvviZnvqNjbaHG9JGtc99McvPN/OI429gv1qITUbm9DjLgfojtweSm0+ouUocHt70YHDvAew1hIyuVL2QV5ZGB8fo66ILUVq964DBmrN9uSyrezM4QM5UtY0gP+7kEd4o7nMK/4OsctNt3A+QfRV9UuOqQ1JAWeli2tbCxXQ278KD34BJcpQD+7+iIpFR27PtUoDjpgYffqR2Z0nIxKXkwsJOmv2N6LODAwdCHdjBJ5ZwjmSgqSdJW3I/nZmEVxX97KOpoqK2SBH12ZDJGtodQ9sRj80qtiz9oSBgXTuvWcoN7kOTTLM2DT719nh4Hhm0ACvth9zTYZ/+Cu4mKTOwvM=
+  file_glob: true
+  file: "build/*"
+  skip_cleanup: true
+  on:
+    tags: true
