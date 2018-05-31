@@ -30,7 +30,7 @@ func Plugin() (plugin plugins.KombustionPlugin, err error) {
 		},
 	}
 
-	return plugin, err
+	return
 }
 
 func main() {}
