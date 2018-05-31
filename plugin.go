@@ -10,8 +10,8 @@ var (
 )
 
 // Plugin - Kombustion Serverless Plugin
-func Plugin() plugins.KombustionPlugin {
-	return plugins.KombustionPlugin{
+func Plugin() (plugin plugins.KombustionPlugin, err error) {
+	plugin = plugins.KombustionPlugin{
 		Version: version,
 		Resources: plugins.ParserFunctions{
 			"Kablamo::Serverless::Function::Permission": resources.ParseLambdaPermission,
@@ -29,6 +29,8 @@ func Plugin() plugins.KombustionPlugin {
 			},
 		},
 	}
+
+	return plugin, err
 }
 
 func main() {}
