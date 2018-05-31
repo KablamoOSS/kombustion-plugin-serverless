@@ -10,28 +10,25 @@ var (
 )
 
 // Plugin - Kombustion Serverless Plugin
-var Plugin = plugins.KombustionPlugin{
-
-	Version: version,
-
-	Resources: plugins.ParserFunctions{
-		"Kablamo::Serverless::Function::Permission": resources.ParseLambdaPermission,
-	},
-
-	Outputs: plugins.ParserFunctions{},
-
-	Mappings: plugins.ParserFunctions{},
-
-	Help: plugins.PluginHelp{
-		Description: "A Serverless Plugin",
-		TypeMappings: []plugins.TypeMapping{
-			{
-				Name:        "Kablamo::Serverless::Function::Permission",
-				Description: "Creates a permission for a function.",
-				Config:      resources.LambdaPermissionConfig{},
+func Plugin() plugins.KombustionPlugin {
+	return plugins.KombustionPlugin{
+		Version: version,
+		Resources: plugins.ParserFunctions{
+			"Kablamo::Serverless::Function::Permission": resources.ParseLambdaPermission,
+		},
+		Outputs:  plugins.ParserFunctions{},
+		Mappings: plugins.ParserFunctions{},
+		Help: plugins.PluginHelp{
+			Description: "A Serverless Plugin",
+			TypeMappings: []plugins.TypeMapping{
+				{
+					Name:        "Kablamo::Serverless::Function::Permission",
+					Description: "Creates a permission for a function.",
+					Config:      resources.LambdaPermissionConfig{},
+				},
 			},
 		},
-	},
+	}
 }
 
 func main() {}
