@@ -7,16 +7,16 @@ import (
 )
 
 // WriteLockToDisk - Write the Lock to disk
-func WriteLockToDisk(Lock Lock) error {
+func WriteLockToDisk(lockFile Lock) error {
 
 	// Mashall the the struct into yaml
-	LockString, err := yaml.Marshal(&Lock)
+	lockString, err := yaml.Marshal(&lockFile)
 	if err != nil {
 		return err
 	}
 
 	// Write the LockString
-	err = ioutil.WriteFile("kombustion.lock", LockString, 0644)
+	err = ioutil.WriteFile("kombustion.lock", lockString, 0644)
 	if err != nil {
 		return err
 	}

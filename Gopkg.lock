@@ -12,7 +12,7 @@
     "plugins/lock",
     "printer"
   ]
-  revision = "18e89522bf7101621d84f9daddd415e1fdbdf2f0"
+  revision = "679febe17dca09de629c84154320193b62fe0d16"
 
 [[projects]]
   name = "github.com/KablamoOSS/yaml"

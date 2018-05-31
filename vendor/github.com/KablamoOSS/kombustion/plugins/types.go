@@ -2,17 +2,17 @@ package plugins
 
 // KombustionPlugin - A plugin struct for Kombustion
 // All of the following are required for a valid plugin
-type KombustionPlugin struct {
+type KombustionPlugin interface {
 	// The resources/outputs/mapping
-	Resources ParserFunctions
-	Outputs   ParserFunctions
-	Mappings  ParserFunctions
+	Resources() ParserFunctions
+	Outputs() ParserFunctions
+	Mappings() ParserFunctions
 
 	// Help information for the user of this plugin
-	Help PluginHelp
+	Help() PluginHelp
 
 	// The version of the plugin
-	Version string
+	Version() string
 }
 
 // PluginHelp - a set of available documentation fields

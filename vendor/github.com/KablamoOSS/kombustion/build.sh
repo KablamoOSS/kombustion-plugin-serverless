@@ -13,9 +13,10 @@ rm -rf build && mkdir build
 # Compile
 xgo \
   -dest build/ \
-  --targets=darwin-10.11/amd64,freebsd/386,freebsd/amd64,freebsd/arm,linux/386,linux/amd64,linux/arm \
+  --targets=darwin-10.11/amd64 \
   --ldflags "-X main.version=${VERSION}" \
   ../$APP
+  # --targets=darwin-10.11/amd64,freebsd/386,freebsd/amd64,freebsd/arm,linux/386,linux/amd64,linux/arm \
 # Package
 cd build
 # For each compiled binary, we're repackaging it in a zip with the architecture name, and

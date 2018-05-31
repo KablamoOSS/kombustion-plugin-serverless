@@ -29,6 +29,9 @@ func addPluginsToManifest(manifest manifestType.Manifest, pluginLocations []stri
 		if manifest.Plugins == nil {
 			manifest.Plugins = make(map[string]manifestType.ManifestPlugin)
 		}
+		if lockFile.Plugins == nil {
+			lockFile.Plugins = make(map[string]lock.Plugin)
+		}
 		manifest.Plugins[plugin.Name] = plugin
 		lockFile.Plugins[plugin.Name] = pluginLock
 	}
@@ -83,7 +86,8 @@ func constructGithubPlugin(manifest manifestType.Manifest, pluginURI string) (pl
 	pluginLock.Name = plugin.Name
 
 	latestRelease, latestReleaseErr := getLatestRelease(githubOrg, githubProject)
-
+	// TODO: handle no release
+	// TODO: handle release with no files
 	if err != nil {
 		return plugin, pluginLock, latestReleaseErr
 	}
@@ -108,6 +112,8 @@ func constructGithubPlugin(manifest manifestType.Manifest, pluginURI string) (pl
 					Architecture:    architecture,
 					PathOnDisk:      "",
 					Hash:            "",
+					ArchiveHash:     "",
+					ArchiveName:     *release.Name,
 				}
 			}
 		}

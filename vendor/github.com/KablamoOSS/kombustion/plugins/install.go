@@ -22,14 +22,17 @@ func installPlugins() error {
 	if err != nil {
 		return err
 	}
-	lockFile, installErrors := installPluginsWithLock(lockFile)
+	updatedLockFile, installErrors := installPluginsWithLock(lockFile)
 	if len(installErrors) > 0 {
 		for _, err := range installErrors {
 			log.Error(err)
 		}
+		printer.Error("Error installing plugins")
 	}
-	err = lock.WriteLockToDisk(lockFile)
+	err = lock.WriteLockToDisk(updatedLockFile)
 	if err != nil {
+		log.Error(err)
+		printer.Error("Error installing plugins")
 		return err
 	}
 	return nil
@@ -79,6 +82,7 @@ func installPlugin(plugin lock.Plugin) (updatedPlugin lock.Plugin, installErrors
 			// Check the local cache for a file
 			foundInCache, cacheFile, err := findPluginInCache(plugin, resolved)
 			if err != nil {
+				log.Fatal(err)
 				installErrors = append(installErrors, err)
 			}
 
@@ -114,6 +118,11 @@ func installPlugin(plugin lock.Plugin) (updatedPlugin lock.Plugin, installErrors
 }
 
 func checkPluginIsAlreadyInstalled(plugin lock.Plugin, resolved lock.PluginResolution) (pluginIsInstalled bool) {
+	// If there's no hash yet, it means the file isn't installed
+	if resolved.Hash == "" {
+		return false
+	}
+
 	hash, _ := getHashOfFile(resolved.PathOnDisk)
 	if hash == resolved.Hash {
 		pluginIsInstalled = true

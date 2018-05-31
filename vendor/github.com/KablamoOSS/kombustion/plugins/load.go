@@ -1,6 +1,7 @@
 package plugins
 
 import (
+	"fmt"
 	"plugin"
 	"runtime"
 
@@ -42,15 +43,22 @@ func loadPlugin(fileName string, resources, outputs, mappings map[string]ParserF
 		return
 	}
 
-	// Load the plugins Resources
-	pluginResources, err := p.Lookup("Resources")
+	getPlugin, err := p.Lookup("Plugin")
 	if err != nil {
 		log.WithFields(log.Fields{
 			"filename": fileName,
 			"err":      err,
-		}).Warn("error reading resource plugin")
+		}).Warn("error loading plugin")
 	}
-	for k, v := range *pluginResources.(*map[string]ParserFunc) {
+
+	// Call the plugin contructor
+	// TODO: possibly we can push the aws session through here
+	// kombustionPlugin, err := getPlugin.(func() (KombustionPlugin, error))()
+	kombustionPlugin, err := getPlugin.(func() (kombustionPlugin KombustionPlugin, err error))()
+
+	fmt.Printf("kombustionPlugin result: %T %v %v\n", kombustionPlugin, kombustionPlugin, err)
+	// Load the plugins Resources
+	for k, v := range kombustionPlugin.Resources() {
 		if _, ok := resources[k]; ok { // Check for duplicates
 			log.WithFields(log.Fields{
 				"resource": k,
@@ -61,14 +69,7 @@ func loadPlugin(fileName string, resources, outputs, mappings map[string]ParserF
 	}
 
 	// Load the plugins Outputs
-	pluginOutputs, err := p.Lookup("Outputs")
-	if err != nil {
-		log.WithFields(log.Fields{
-			"filename": fileName,
-			"err":      err,
-		}).Warn("error reading resource plugin")
-	}
-	for k, v := range *pluginOutputs.(*map[string]ParserFunc) {
+	for k, v := range kombustionPlugin.Outputs() {
 		if _, ok := outputs[k]; ok { // Check for duplicates
 			log.WithFields(log.Fields{
 				"output": k,
@@ -79,14 +80,7 @@ func loadPlugin(fileName string, resources, outputs, mappings map[string]ParserF
 	}
 
 	// Load the plugins Mappings
-	pluginMappings, err := p.Lookup("Mappings")
-	if err != nil {
-		log.WithFields(log.Fields{
-			"filename": fileName,
-			"err":      err,
-		}).Warn("error reading resource plugin")
-	}
-	for k, v := range *pluginMappings.(*map[string]ParserFunc) {
+	for k, v := range kombustionPlugin.Mappings() {
 		if _, ok := mappings[k]; ok { // Check for duplicates
 			log.WithFields(log.Fields{
 				"mapping": k,

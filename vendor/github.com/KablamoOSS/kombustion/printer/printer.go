@@ -72,7 +72,7 @@ func SubStep(message string, indent int, last bool) {
 // Finish - Print a final message to the console
 func Finish(message string) {
 	spinner := getPrinter()
-	spinner.FinalMSG = fmt.Sprintf("%s %s \n", chalk.Green.Color("✔"), message)
+	spinner.FinalMSG = fmt.Sprintf("%s  %s \n", chalk.Green.Color("✔"), message)
 	spinner.Start()
 	time.Sleep(2 * time.Second)
 	spinner.Stop()
@@ -81,7 +81,7 @@ func Finish(message string) {
 // Error - Finish with an error
 func Error(message string) {
 	spinner := getPrinter()
-	spinner.FinalMSG = fmt.Sprintf("%s %s \n", chalk.Red.Color("✖"), message)
+	spinner.FinalMSG = fmt.Sprintf("%s  %s \n", chalk.Red.Color("✖"), message)
 	spinner.Start()
 	time.Sleep(2 * time.Second)
 	spinner.Stop()
