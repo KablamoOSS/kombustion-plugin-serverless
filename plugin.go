@@ -10,7 +10,7 @@ var (
 )
 
 // Plugin - Kombustion Serverless Plugin
-func Plugin() (plugin plugins.KombustionPlugin, err error) {
+func Plugin() (plugin interface{}, err error) {
 	plugin = plugins.KombustionPlugin{
 		Version: version,
 		Resources: plugins.ParserFunctions{
