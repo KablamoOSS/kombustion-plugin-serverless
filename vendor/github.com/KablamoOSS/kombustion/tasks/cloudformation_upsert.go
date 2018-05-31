@@ -8,7 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/KablamoOSS/kombustion/cloudformation"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"github.com/aws/aws-sdk-go/aws"
 	awsCF "github.com/aws/aws-sdk-go/service/cloudformation"
 	"github.com/urfave/cli"
@@ -175,7 +175,7 @@ func resolveParameters(c *cli.Context, cfYaml cloudformation.YamlCloudformation)
 func resolveParametersS3(c *cli.Context) []*awsCF.Parameter {
 	results := []*awsCF.Parameter{}
 
-	var params types.ValueMap
+	var params plugins.ValueMap
 
 	// override envFile values with optional --param values
 	paramMap := getParamMap(c)

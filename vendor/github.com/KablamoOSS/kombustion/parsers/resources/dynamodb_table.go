@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 	"github.com/KablamoOSS/kombustion/parsers/properties"
@@ -37,7 +37,7 @@ func NewDynamoDBTable(properties DynamoDBTableProperties, deps ...interface{}) D
 	}
 }
 
-func ParseDynamoDBTable(name string, data string) (cf types.ValueMap, err error) {
+func ParseDynamoDBTable(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource DynamoDBTable
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -48,7 +48,7 @@ func ParseDynamoDBTable(name string, data string) (cf types.ValueMap, err error)
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

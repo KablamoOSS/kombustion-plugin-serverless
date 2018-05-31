@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -34,7 +34,7 @@ func NewGlueDevEndpoint(properties GlueDevEndpointProperties, deps ...interface{
 	}
 }
 
-func ParseGlueDevEndpoint(name string, data string) (cf types.ValueMap, err error) {
+func ParseGlueDevEndpoint(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource GlueDevEndpoint
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -45,7 +45,7 @@ func ParseGlueDevEndpoint(name string, data string) (cf types.ValueMap, err erro
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

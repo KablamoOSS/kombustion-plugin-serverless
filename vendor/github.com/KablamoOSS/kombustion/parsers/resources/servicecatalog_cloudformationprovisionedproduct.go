@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 )
 
@@ -35,7 +35,7 @@ func NewServiceCatalogCloudFormationProvisionedProduct(properties ServiceCatalog
 	}
 }
 
-func ParseServiceCatalogCloudFormationProvisionedProduct(name string, data string) (cf types.ValueMap, err error) {
+func ParseServiceCatalogCloudFormationProvisionedProduct(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource ServiceCatalogCloudFormationProvisionedProduct
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -46,7 +46,7 @@ func ParseServiceCatalogCloudFormationProvisionedProduct(name string, data strin
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

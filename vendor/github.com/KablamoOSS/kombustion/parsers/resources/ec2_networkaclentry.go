@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 	"github.com/KablamoOSS/kombustion/parsers/properties"
@@ -36,7 +36,7 @@ func NewEC2NetworkAclEntry(properties EC2NetworkAclEntryProperties, deps ...inte
 	}
 }
 
-func ParseEC2NetworkAclEntry(name string, data string) (cf types.ValueMap, err error) {
+func ParseEC2NetworkAclEntry(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource EC2NetworkAclEntry
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -47,7 +47,7 @@ func ParseEC2NetworkAclEntry(name string, data string) (cf types.ValueMap, err e
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

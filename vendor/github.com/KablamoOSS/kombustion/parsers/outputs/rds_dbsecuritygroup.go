@@ -1,12 +1,12 @@
 package outputs
 import (
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 )
 
-func ParseRDSDBSecurityGroup(name string, data string) (cf types.ValueMap, err error) {
+func ParseRDSDBSecurityGroup(name string, data string) (cf plugins.ValueMap, err error) {
 	
-	cf = types.ValueMap{
-		name: types.ValueMap{
+	cf = plugins.ValueMap{
+		name: plugins.ValueMap{
 			"Description": name + " Object",
 			"Value": map[string]interface{}{
 				"Ref": name,

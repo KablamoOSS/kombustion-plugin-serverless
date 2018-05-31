@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -30,7 +30,7 @@ func NewRDSDBClusterParameterGroup(properties RDSDBClusterParameterGroupProperti
 	}
 }
 
-func ParseRDSDBClusterParameterGroup(name string, data string) (cf types.ValueMap, err error) {
+func ParseRDSDBClusterParameterGroup(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource RDSDBClusterParameterGroup
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -41,7 +41,7 @@ func ParseRDSDBClusterParameterGroup(name string, data string) (cf types.ValueMa
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

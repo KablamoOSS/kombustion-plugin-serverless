@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -29,7 +29,7 @@ func NewApiGatewayVpcLink(properties ApiGatewayVpcLinkProperties, deps ...interf
 	}
 }
 
-func ParseApiGatewayVpcLink(name string, data string) (cf types.ValueMap, err error) {
+func ParseApiGatewayVpcLink(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource ApiGatewayVpcLink
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -40,7 +40,7 @@ func ParseApiGatewayVpcLink(name string, data string) (cf types.ValueMap, err er
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

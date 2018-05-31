@@ -1,18 +1,18 @@
 package outputs
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 )
 
-func ParseElasticLoadBalancingLoadBalancer(name string, data string) (cf types.ValueMap, err error) {
+func ParseElasticLoadBalancingLoadBalancer(name string, data string) (cf plugins.ValueMap, err error) {
 	
-	var resource, output types.ValueMap
+	var resource, output plugins.ValueMap
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
 	}
 	
-	cf = types.ValueMap{
-		name: types.ValueMap{
+	cf = plugins.ValueMap{
+		name: plugins.ValueMap{
 			"Description": name + " Object",
 			"Value": map[string]interface{}{
 				"Ref": name,
@@ -26,7 +26,7 @@ func ParseElasticLoadBalancingLoadBalancer(name string, data string) (cf types.V
 	}
 
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "CanonicalHostedZoneName"},
@@ -42,7 +42,7 @@ func ParseElasticLoadBalancingLoadBalancer(name string, data string) (cf types.V
 	}
 	cf[name+"CanonicalHostedZoneName"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "CanonicalHostedZoneNameID"},
@@ -58,7 +58,7 @@ func ParseElasticLoadBalancingLoadBalancer(name string, data string) (cf types.V
 	}
 	cf[name+"CanonicalHostedZoneNameID"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "DNSName"},
@@ -74,7 +74,7 @@ func ParseElasticLoadBalancingLoadBalancer(name string, data string) (cf types.V
 	}
 	cf[name+"DNSName"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "SourceSecurityGroup.GroupName"},
@@ -90,7 +90,7 @@ func ParseElasticLoadBalancingLoadBalancer(name string, data string) (cf types.V
 	}
 	cf[name+"SourceSecurityGroupGroupName"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "SourceSecurityGroup.OwnerAlias"},

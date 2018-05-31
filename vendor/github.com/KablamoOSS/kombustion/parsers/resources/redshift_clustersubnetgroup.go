@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -29,7 +29,7 @@ func NewRedshiftClusterSubnetGroup(properties RedshiftClusterSubnetGroupProperti
 	}
 }
 
-func ParseRedshiftClusterSubnetGroup(name string, data string) (cf types.ValueMap, err error) {
+func ParseRedshiftClusterSubnetGroup(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource RedshiftClusterSubnetGroup
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -40,7 +40,7 @@ func ParseRedshiftClusterSubnetGroup(name string, data string) (cf types.ValueMa
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

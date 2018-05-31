@@ -78,12 +78,12 @@ const parserMapTemplate = `{{$MainPackageName := .MainPackageName}}package {{$Ma
 {{$PackageName := .PackageName}}
 
 import (
-  "github.com/KablamoOSS/kombustion/types"
+  "github.com/KablamoOSS/kombustion/plugins"
   "github.com/KablamoOSS/kombustion/{{$MainPackageName}}/{{$PackageName}}"
 )
 
-func GetParsers_{{$PackageName}}() map[string]types.ParserFunc {
-	return map[string]types.ParserFunc{
+func GetParsers_{{$PackageName}}() map[string]plugins.ParserFunc {
+	return map[string]plugins.ParserFunc{
 		{{range $ResourceType, $ResourceName := .ResourceTypes}}
 		"{{$ResourceType}}": {{$PackageName}}.Parse{{$ResourceName}},
 		{{end}}
@@ -120,7 +120,7 @@ const resourceTemplate = `package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	{{- if .NeedsFmtImport}}
 	"fmt"
@@ -152,7 +152,7 @@ func New{{$ResourceName}}(properties {{$ResourceName}}Properties, deps ...interf
 	}
 }
 
-func Parse{{$ResourceName}}(name string, data string) (cf types.ValueMap, err error) {
+func Parse{{$ResourceName}}(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource {{$ResourceName}}
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -163,7 +163,7 @@ func Parse{{$ResourceName}}(name string, data string) (cf types.ValueMap, err er
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 
@@ -187,18 +187,18 @@ import (
 	{{- if .Attributes}}
 	yaml "github.com/KablamoOSS/yaml"
 	{{- end}}
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 )
 
-func Parse{{$ResourceName}}(name string, data string) (cf types.ValueMap, err error) {
+func Parse{{$ResourceName}}(name string, data string) (cf plugins.ValueMap, err error) {
 	{{if .Attributes}}
-	var resource, output types.ValueMap
+	var resource, output plugins.ValueMap
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
 	}
 	{{end}}
-	cf = types.ValueMap{
-		name: types.ValueMap{
+	cf = plugins.ValueMap{
+		name: plugins.ValueMap{
 			"Description": name + " Object",
 			"Value": map[string]interface{}{
 				"Ref": name,
@@ -212,7 +212,7 @@ func Parse{{$ResourceName}}(name string, data string) (cf types.ValueMap, err er
 	}
 
 	{{range $attrName, $attr := .Attributes}}
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "{{$attrName}}"},

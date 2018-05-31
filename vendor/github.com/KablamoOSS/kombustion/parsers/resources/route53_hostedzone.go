@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 	"github.com/KablamoOSS/kombustion/parsers/properties"
@@ -32,7 +32,7 @@ func NewRoute53HostedZone(properties Route53HostedZoneProperties, deps ...interf
 	}
 }
 
-func ParseRoute53HostedZone(name string, data string) (cf types.ValueMap, err error) {
+func ParseRoute53HostedZone(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource Route53HostedZone
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -43,7 +43,7 @@ func ParseRoute53HostedZone(name string, data string) (cf types.ValueMap, err er
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

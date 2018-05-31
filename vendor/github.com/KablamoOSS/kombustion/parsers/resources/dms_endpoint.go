@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 	"github.com/KablamoOSS/kombustion/parsers/properties"
@@ -43,7 +43,7 @@ func NewDMSEndpoint(properties DMSEndpointProperties, deps ...interface{}) DMSEn
 	}
 }
 
-func ParseDMSEndpoint(name string, data string) (cf types.ValueMap, err error) {
+func ParseDMSEndpoint(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource DMSEndpoint
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -54,7 +54,7 @@ func ParseDMSEndpoint(name string, data string) (cf types.ValueMap, err error) {
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

@@ -1,18 +1,18 @@
 package outputs
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 )
 
-func ParseEC2VPC(name string, data string) (cf types.ValueMap, err error) {
+func ParseEC2VPC(name string, data string) (cf plugins.ValueMap, err error) {
 	
-	var resource, output types.ValueMap
+	var resource, output plugins.ValueMap
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
 	}
 	
-	cf = types.ValueMap{
-		name: types.ValueMap{
+	cf = plugins.ValueMap{
+		name: plugins.ValueMap{
 			"Description": name + " Object",
 			"Value": map[string]interface{}{
 				"Ref": name,
@@ -26,7 +26,7 @@ func ParseEC2VPC(name string, data string) (cf types.ValueMap, err error) {
 	}
 
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "CidrBlock"},
@@ -42,7 +42,7 @@ func ParseEC2VPC(name string, data string) (cf types.ValueMap, err error) {
 	}
 	cf[name+"CidrBlock"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "CidrBlockAssociations"},
@@ -58,7 +58,7 @@ func ParseEC2VPC(name string, data string) (cf types.ValueMap, err error) {
 	}
 	cf[name+"CidrBlockAssociations"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "DefaultNetworkAcl"},
@@ -74,7 +74,7 @@ func ParseEC2VPC(name string, data string) (cf types.ValueMap, err error) {
 	}
 	cf[name+"DefaultNetworkAcl"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "DefaultSecurityGroup"},
@@ -90,7 +90,7 @@ func ParseEC2VPC(name string, data string) (cf types.ValueMap, err error) {
 	}
 	cf[name+"DefaultSecurityGroup"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "Ipv6CidrBlocks"},

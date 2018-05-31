@@ -1,18 +1,18 @@
 package outputs
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 )
 
-func ParseCloud9EnvironmentEC2(name string, data string) (cf types.ValueMap, err error) {
+func ParseCloud9EnvironmentEC2(name string, data string) (cf plugins.ValueMap, err error) {
 	
-	var resource, output types.ValueMap
+	var resource, output plugins.ValueMap
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
 	}
 	
-	cf = types.ValueMap{
-		name: types.ValueMap{
+	cf = plugins.ValueMap{
+		name: plugins.ValueMap{
 			"Description": name + " Object",
 			"Value": map[string]interface{}{
 				"Ref": name,
@@ -26,7 +26,7 @@ func ParseCloud9EnvironmentEC2(name string, data string) (cf types.ValueMap, err
 	}
 
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "Arn"},
@@ -42,7 +42,7 @@ func ParseCloud9EnvironmentEC2(name string, data string) (cf types.ValueMap, err
 	}
 	cf[name+"Arn"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "Name"},

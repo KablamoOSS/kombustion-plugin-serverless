@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 )
 
@@ -29,7 +29,7 @@ func NewIAMGroup(properties IAMGroupProperties, deps ...interface{}) IAMGroup {
 	}
 }
 
-func ParseIAMGroup(name string, data string) (cf types.ValueMap, err error) {
+func ParseIAMGroup(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource IAMGroup
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -40,7 +40,7 @@ func ParseIAMGroup(name string, data string) (cf types.ValueMap, err error) {
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 	"github.com/KablamoOSS/kombustion/parsers/properties"
@@ -33,7 +33,7 @@ func NewConfigConfigRule(properties ConfigConfigRuleProperties, deps ...interfac
 	}
 }
 
-func ParseConfigConfigRule(name string, data string) (cf types.ValueMap, err error) {
+func ParseConfigConfigRule(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource ConfigConfigRule
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -44,7 +44,7 @@ func ParseConfigConfigRule(name string, data string) (cf types.ValueMap, err err
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

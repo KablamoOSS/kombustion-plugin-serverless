@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -28,7 +28,7 @@ func NewKMSAlias(properties KMSAliasProperties, deps ...interface{}) KMSAlias {
 	}
 }
 
-func ParseKMSAlias(name string, data string) (cf types.ValueMap, err error) {
+func ParseKMSAlias(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource KMSAlias
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -39,7 +39,7 @@ func ParseKMSAlias(name string, data string) (cf types.ValueMap, err error) {
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

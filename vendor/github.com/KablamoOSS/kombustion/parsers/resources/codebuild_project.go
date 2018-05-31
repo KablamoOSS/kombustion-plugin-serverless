@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 	"github.com/KablamoOSS/kombustion/parsers/properties"
@@ -40,7 +40,7 @@ func NewCodeBuildProject(properties CodeBuildProjectProperties, deps ...interfac
 	}
 }
 
-func ParseCodeBuildProject(name string, data string) (cf types.ValueMap, err error) {
+func ParseCodeBuildProject(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource CodeBuildProject
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -51,7 +51,7 @@ func ParseCodeBuildProject(name string, data string) (cf types.ValueMap, err err
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

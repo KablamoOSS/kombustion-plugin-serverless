@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 	"github.com/KablamoOSS/kombustion/parsers/properties"
@@ -34,7 +34,7 @@ func NewElasticBeanstalkConfigurationTemplate(properties ElasticBeanstalkConfigu
 	}
 }
 
-func ParseElasticBeanstalkConfigurationTemplate(name string, data string) (cf types.ValueMap, err error) {
+func ParseElasticBeanstalkConfigurationTemplate(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource ElasticBeanstalkConfigurationTemplate
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -45,7 +45,7 @@ func ParseElasticBeanstalkConfigurationTemplate(name string, data string) (cf ty
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

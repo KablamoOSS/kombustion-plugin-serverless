@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 )
 
@@ -30,7 +30,7 @@ func NewEC2EIPAssociation(properties EC2EIPAssociationProperties, deps ...interf
 	}
 }
 
-func ParseEC2EIPAssociation(name string, data string) (cf types.ValueMap, err error) {
+func ParseEC2EIPAssociation(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource EC2EIPAssociation
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -41,7 +41,7 @@ func ParseEC2EIPAssociation(name string, data string) (cf types.ValueMap, err er
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

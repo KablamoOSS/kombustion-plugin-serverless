@@ -2,24 +2,34 @@ package main
 
 import (
 	"github.com/KablamoOSS/kombustion-plugin-serverless/resources"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 )
 
-var Resources = map[string]types.ParserFunc{
-	"Kablamo::Serverless::Function::Permission": resources.ParseLambdaPermission,
-}
+var (
+	version string
+)
 
-var Outputs = map[string]types.ParserFunc{}
+// Plugin - Kombustion Serverless Plugin
+var Plugin = plugins.KombustionPlugin{
 
-var Mappings = map[string]types.ParserFunc{}
+	Version: version,
 
-var Help = types.PluginHelp{
-	Description: "A Serverless Plugin",
-	TypeMappings: []types.TypeMapping{
-		{
-			Name:        "Kablamo::Serverless::Function::Permission",
-			Description: "Creates a permission for a function.",
-			Config:      resources.LambdaPermissionConfig{},
+	Resources: plugins.ParserFunctions{
+		"Kablamo::Serverless::Function::Permission": resources.ParseLambdaPermission,
+	},
+
+	Outputs: plugins.ParserFunctions{},
+
+	Mappings: plugins.ParserFunctions{},
+
+	Help: plugins.PluginHelp{
+		Description: "A Serverless Plugin",
+		TypeMappings: []plugins.TypeMapping{
+			{
+				Name:        "Kablamo::Serverless::Function::Permission",
+				Description: "Creates a permission for a function.",
+				Config:      resources.LambdaPermissionConfig{},
+			},
 		},
 	},
 }

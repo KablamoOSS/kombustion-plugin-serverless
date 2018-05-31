@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -31,7 +31,7 @@ func NewEC2VPC(properties EC2VPCProperties, deps ...interface{}) EC2VPC {
 	}
 }
 
-func ParseEC2VPC(name string, data string) (cf types.ValueMap, err error) {
+func ParseEC2VPC(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource EC2VPC
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -42,7 +42,7 @@ func ParseEC2VPC(name string, data string) (cf types.ValueMap, err error) {
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

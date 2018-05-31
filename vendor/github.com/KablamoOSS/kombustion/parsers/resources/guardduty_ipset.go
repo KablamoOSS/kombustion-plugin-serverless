@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -31,7 +31,7 @@ func NewGuardDutyIPSet(properties GuardDutyIPSetProperties, deps ...interface{})
 	}
 }
 
-func ParseGuardDutyIPSet(name string, data string) (cf types.ValueMap, err error) {
+func ParseGuardDutyIPSet(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource GuardDutyIPSet
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -42,7 +42,7 @@ func ParseGuardDutyIPSet(name string, data string) (cf types.ValueMap, err error
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

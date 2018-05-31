@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 	"github.com/KablamoOSS/kombustion/parsers/properties"
@@ -40,7 +40,7 @@ func NewCodeDeployDeploymentGroup(properties CodeDeployDeploymentGroupProperties
 	}
 }
 
-func ParseCodeDeployDeploymentGroup(name string, data string) (cf types.ValueMap, err error) {
+func ParseCodeDeployDeploymentGroup(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource CodeDeployDeploymentGroup
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -51,7 +51,7 @@ func ParseCodeDeployDeploymentGroup(name string, data string) (cf types.ValueMap
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

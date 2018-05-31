@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -28,7 +28,7 @@ func NewEC2VPNConnectionRoute(properties EC2VPNConnectionRouteProperties, deps .
 	}
 }
 
-func ParseEC2VPNConnectionRoute(name string, data string) (cf types.ValueMap, err error) {
+func ParseEC2VPNConnectionRoute(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource EC2VPNConnectionRoute
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -39,7 +39,7 @@ func ParseEC2VPNConnectionRoute(name string, data string) (cf types.ValueMap, er
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

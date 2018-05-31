@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 	"github.com/KablamoOSS/kombustion/parsers/properties"
@@ -32,7 +32,7 @@ func NewLambdaAlias(properties LambdaAliasProperties, deps ...interface{}) Lambd
 	}
 }
 
-func ParseLambdaAlias(name string, data string) (cf types.ValueMap, err error) {
+func ParseLambdaAlias(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource LambdaAlias
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -43,7 +43,7 @@ func ParseLambdaAlias(name string, data string) (cf types.ValueMap, err error) {
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

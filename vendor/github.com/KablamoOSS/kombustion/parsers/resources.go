@@ -2,12 +2,12 @@ package parsers
 
 
 import (
-  "github.com/KablamoOSS/kombustion/types"
+  "github.com/KablamoOSS/kombustion/plugins"
   "github.com/KablamoOSS/kombustion/parsers/resources"
 )
 
-func GetParsers_resources() map[string]types.ParserFunc {
-	return map[string]types.ParserFunc{
+func GetParsers_resources() map[string]plugins.ParserFunc {
+	return map[string]plugins.ParserFunc{
 		
 		"AWS::ApiGateway::Account": resources.ParseApiGatewayAccount,
 		

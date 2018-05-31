@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -33,7 +33,7 @@ func NewCognitoUserPoolUser(properties CognitoUserPoolUserProperties, deps ...in
 	}
 }
 
-func ParseCognitoUserPoolUser(name string, data string) (cf types.ValueMap, err error) {
+func ParseCognitoUserPoolUser(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource CognitoUserPoolUser
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -44,7 +44,7 @@ func ParseCognitoUserPoolUser(name string, data string) (cf types.ValueMap, err 
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

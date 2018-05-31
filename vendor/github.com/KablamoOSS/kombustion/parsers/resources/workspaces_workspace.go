@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -32,7 +32,7 @@ func NewWorkSpacesWorkspace(properties WorkSpacesWorkspaceProperties, deps ...in
 	}
 }
 
-func ParseWorkSpacesWorkspace(name string, data string) (cf types.ValueMap, err error) {
+func ParseWorkSpacesWorkspace(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource WorkSpacesWorkspace
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -43,7 +43,7 @@ func ParseWorkSpacesWorkspace(name string, data string) (cf types.ValueMap, err 
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

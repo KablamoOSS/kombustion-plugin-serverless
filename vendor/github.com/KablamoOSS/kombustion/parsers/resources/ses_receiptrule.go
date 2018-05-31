@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 	"github.com/KablamoOSS/kombustion/parsers/properties"
@@ -30,7 +30,7 @@ func NewSESReceiptRule(properties SESReceiptRuleProperties, deps ...interface{})
 	}
 }
 
-func ParseSESReceiptRule(name string, data string) (cf types.ValueMap, err error) {
+func ParseSESReceiptRule(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource SESReceiptRule
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -41,7 +41,7 @@ func ParseSESReceiptRule(name string, data string) (cf types.ValueMap, err error
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

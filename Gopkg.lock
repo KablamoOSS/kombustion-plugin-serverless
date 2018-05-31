@@ -2,10 +2,17 @@
 
 
 [[projects]]
+  branch = "ok/rfc-0001"
   name = "github.com/KablamoOSS/kombustion"
-  packages = ["parsers/properties","parsers/resources","types"]
-  revision = "42791c9ad085b0823efe639898e4ecb469108108"
-  version = "0.1.5"
+  packages = [
+    "manifest",
+    "parsers/properties",
+    "parsers/resources",
+    "plugins",
+    "plugins/lock",
+    "printer"
+  ]
+  revision = "18e89522bf7101621d84f9daddd415e1fdbdf2f0"
 
 [[projects]]
   name = "github.com/KablamoOSS/yaml"
@@ -13,9 +20,130 @@
   revision = "2bbb9391bbcc4c20cf36604955b746df3333c012"
   version = "v2.2.2"
 
+[[projects]]
+  name = "github.com/briandowns/spinner"
+  packages = ["."]
+  revision = "48dbb65d7bd5c74ab50d53d04c949f20e3d14944"
+  version = "1.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/dsnet/compress"
+  packages = [
+    ".",
+    "bzip2",
+    "bzip2/internal/sais",
+    "internal",
+    "internal/errors",
+    "internal/prefix"
+  ]
+  revision = "cc9eb1d7ad760af14e8f918698f745e80377af4f"
+
+[[projects]]
+  name = "github.com/fatih/color"
+  packages = ["."]
+  revision = "5b77d2a35fb0ede96d138fc9a99f5c9b6aef11b4"
+  version = "v1.7.0"
+
+[[projects]]
+  name = "github.com/google/go-github"
+  packages = ["github"]
+  revision = "e48060a28fac52d0f1cb758bc8b87c07bac4a87d"
+  version = "v15.0.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/google/go-querystring"
+  packages = ["query"]
+  revision = "53e6ce116135b80d037921a7fdd5138cf32d7a8a"
+
+[[projects]]
+  name = "github.com/mattn/go-colorable"
+  packages = ["."]
+  revision = "167de6bfdfba052fa6b2d3664c8f5272e23c9072"
+  version = "v0.0.9"
+
+[[projects]]
+  name = "github.com/mattn/go-isatty"
+  packages = ["."]
+  revision = "0360b2af4f38e8d38c7fce2a9f4e702702d73a39"
+  version = "v0.0.3"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/mgutz/ansi"
+  packages = ["."]
+  revision = "9520e82c474b0a04dd04f8a40959027271bab992"
+
+[[projects]]
+  name = "github.com/mholt/archiver"
+  packages = ["."]
+  revision = "cdc68dd1f170b8dfc1a0d2231b5bb0967ed67006"
+  version = "v2.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/nwaples/rardecode"
+  packages = ["."]
+  revision = "e06696f847aeda6f39a8f0b7cdff193b7690aef6"
+
+[[projects]]
+  name = "github.com/sirupsen/logrus"
+  packages = ["."]
+  revision = "c155da19408a8799da419ed3eeb0cb5db0ad5dbc"
+  version = "v1.0.5"
+
+[[projects]]
+  name = "github.com/ttacon/chalk"
+  packages = ["."]
+  revision = "76b3c8b611dea8f83e49e9ce81fc2b189e0ef3d2"
+  version = "v0.1"
+
+[[projects]]
+  name = "github.com/ulikunitz/xz"
+  packages = [
+    ".",
+    "internal/hash",
+    "internal/xlog",
+    "lzma"
+  ]
+  revision = "0c6b41e72360850ca4f98dc341fd999726ea007f"
+  version = "v0.5.4"
+
+[[projects]]
+  name = "github.com/urfave/cli"
+  packages = ["."]
+  revision = "cfb38830724cc34fedffe9a2a29fb54fa9169cd1"
+  version = "v1.20.0"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/crypto"
+  packages = ["ssh/terminal"]
+  revision = "ab813273cd59e1333f7ae7bff5d027d4aadf528c"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/sys"
+  packages = [
+    "unix",
+    "windows"
+  ]
+  revision = "c11f84a56e43e20a78cee75a7c034031ecf57d1f"
+
+[[projects]]
+  name = "gopkg.in/AlecAivazis/survey.v1"
+  packages = [
+    ".",
+    "core",
+    "terminal"
+  ]
+  revision = "e752db451e07e09c7d7dc8cada807a44bdb0fd47"
+  version = "v1.5.3"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "9a6b490ca935dfa1e52e96f0e7e656584dd07cc6fcd075ffc11c815595ab0f06"
+  inputs-digest = "fdf7d074f9fa63f0ee2a99586a617e83f551eed423f94a638180e760dfd964db"
   solver-name = "gps-cdcl"
   solver-version = 1

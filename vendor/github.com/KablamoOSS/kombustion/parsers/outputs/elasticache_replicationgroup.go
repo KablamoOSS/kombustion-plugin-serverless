@@ -1,18 +1,18 @@
 package outputs
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 )
 
-func ParseElastiCacheReplicationGroup(name string, data string) (cf types.ValueMap, err error) {
+func ParseElastiCacheReplicationGroup(name string, data string) (cf plugins.ValueMap, err error) {
 	
-	var resource, output types.ValueMap
+	var resource, output plugins.ValueMap
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
 	}
 	
-	cf = types.ValueMap{
-		name: types.ValueMap{
+	cf = plugins.ValueMap{
+		name: plugins.ValueMap{
 			"Description": name + " Object",
 			"Value": map[string]interface{}{
 				"Ref": name,
@@ -26,7 +26,7 @@ func ParseElastiCacheReplicationGroup(name string, data string) (cf types.ValueM
 	}
 
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "ConfigurationEndPoint.Address"},
@@ -42,7 +42,7 @@ func ParseElastiCacheReplicationGroup(name string, data string) (cf types.ValueM
 	}
 	cf[name+"ConfigurationEndPointAddress"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "ConfigurationEndPoint.Port"},
@@ -58,7 +58,7 @@ func ParseElastiCacheReplicationGroup(name string, data string) (cf types.ValueM
 	}
 	cf[name+"ConfigurationEndPointPort"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "PrimaryEndPoint.Address"},
@@ -74,7 +74,7 @@ func ParseElastiCacheReplicationGroup(name string, data string) (cf types.ValueM
 	}
 	cf[name+"PrimaryEndPointAddress"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "PrimaryEndPoint.Port"},
@@ -90,7 +90,7 @@ func ParseElastiCacheReplicationGroup(name string, data string) (cf types.ValueM
 	}
 	cf[name+"PrimaryEndPointPort"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "ReadEndPoint.Addresses"},
@@ -106,7 +106,7 @@ func ParseElastiCacheReplicationGroup(name string, data string) (cf types.ValueM
 	}
 	cf[name+"ReadEndPointAddresses"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "ReadEndPoint.Addresses.List"},
@@ -122,7 +122,7 @@ func ParseElastiCacheReplicationGroup(name string, data string) (cf types.ValueM
 	}
 	cf[name+"ReadEndPointAddressesList"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "ReadEndPoint.Ports"},
@@ -138,7 +138,7 @@ func ParseElastiCacheReplicationGroup(name string, data string) (cf types.ValueM
 	}
 	cf[name+"ReadEndPointPorts"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "ReadEndPoint.Ports.List"},

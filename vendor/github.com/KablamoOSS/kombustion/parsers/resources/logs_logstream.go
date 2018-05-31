@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -28,7 +28,7 @@ func NewLogsLogStream(properties LogsLogStreamProperties, deps ...interface{}) L
 	}
 }
 
-func ParseLogsLogStream(name string, data string) (cf types.ValueMap, err error) {
+func ParseLogsLogStream(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource LogsLogStream
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -39,7 +39,7 @@ func ParseLogsLogStream(name string, data string) (cf types.ValueMap, err error)
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

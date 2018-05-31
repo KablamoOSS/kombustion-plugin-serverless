@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -31,7 +31,7 @@ func NewInspectorAssessmentTemplate(properties InspectorAssessmentTemplateProper
 	}
 }
 
-func ParseInspectorAssessmentTemplate(name string, data string) (cf types.ValueMap, err error) {
+func ParseInspectorAssessmentTemplate(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource InspectorAssessmentTemplate
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -42,7 +42,7 @@ func ParseInspectorAssessmentTemplate(name string, data string) (cf types.ValueM
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

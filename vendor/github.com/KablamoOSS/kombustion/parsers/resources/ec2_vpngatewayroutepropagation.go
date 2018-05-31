@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -28,7 +28,7 @@ func NewEC2VPNGatewayRoutePropagation(properties EC2VPNGatewayRoutePropagationPr
 	}
 }
 
-func ParseEC2VPNGatewayRoutePropagation(name string, data string) (cf types.ValueMap, err error) {
+func ParseEC2VPNGatewayRoutePropagation(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource EC2VPNGatewayRoutePropagation
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -39,7 +39,7 @@ func ParseEC2VPNGatewayRoutePropagation(name string, data string) (cf types.Valu
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

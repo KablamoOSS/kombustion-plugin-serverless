@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -33,7 +33,7 @@ func NewEC2Subnet(properties EC2SubnetProperties, deps ...interface{}) EC2Subnet
 	}
 }
 
-func ParseEC2Subnet(name string, data string) (cf types.ValueMap, err error) {
+func ParseEC2Subnet(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource EC2Subnet
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -44,7 +44,7 @@ func ParseEC2Subnet(name string, data string) (cf types.ValueMap, err error) {
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 )
 
@@ -26,7 +26,7 @@ func NewEC2InternetGateway(properties EC2InternetGatewayProperties, deps ...inte
 	}
 }
 
-func ParseEC2InternetGateway(name string, data string) (cf types.ValueMap, err error) {
+func ParseEC2InternetGateway(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource EC2InternetGateway
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -37,7 +37,7 @@ func ParseEC2InternetGateway(name string, data string) (cf types.ValueMap, err e
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

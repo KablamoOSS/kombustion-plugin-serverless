@@ -1,18 +1,18 @@
 package outputs
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 )
 
-func ParseElastiCacheCacheCluster(name string, data string) (cf types.ValueMap, err error) {
+func ParseElastiCacheCacheCluster(name string, data string) (cf plugins.ValueMap, err error) {
 	
-	var resource, output types.ValueMap
+	var resource, output plugins.ValueMap
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
 	}
 	
-	cf = types.ValueMap{
-		name: types.ValueMap{
+	cf = plugins.ValueMap{
+		name: plugins.ValueMap{
 			"Description": name + " Object",
 			"Value": map[string]interface{}{
 				"Ref": name,
@@ -26,7 +26,7 @@ func ParseElastiCacheCacheCluster(name string, data string) (cf types.ValueMap, 
 	}
 
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "ConfigurationEndpoint.Address"},
@@ -42,7 +42,7 @@ func ParseElastiCacheCacheCluster(name string, data string) (cf types.ValueMap, 
 	}
 	cf[name+"ConfigurationEndpointAddress"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "ConfigurationEndpoint.Port"},
@@ -58,7 +58,7 @@ func ParseElastiCacheCacheCluster(name string, data string) (cf types.ValueMap, 
 	}
 	cf[name+"ConfigurationEndpointPort"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "RedisEndpoint.Address"},
@@ -74,7 +74,7 @@ func ParseElastiCacheCacheCluster(name string, data string) (cf types.ValueMap, 
 	}
 	cf[name+"RedisEndpointAddress"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "RedisEndpoint.Port"},

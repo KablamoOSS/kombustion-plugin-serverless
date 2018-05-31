@@ -1,18 +1,18 @@
 package outputs
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 )
 
-func ParseEC2Instance(name string, data string) (cf types.ValueMap, err error) {
+func ParseEC2Instance(name string, data string) (cf plugins.ValueMap, err error) {
 	
-	var resource, output types.ValueMap
+	var resource, output plugins.ValueMap
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
 	}
 	
-	cf = types.ValueMap{
-		name: types.ValueMap{
+	cf = plugins.ValueMap{
+		name: plugins.ValueMap{
 			"Description": name + " Object",
 			"Value": map[string]interface{}{
 				"Ref": name,
@@ -26,7 +26,7 @@ func ParseEC2Instance(name string, data string) (cf types.ValueMap, err error) {
 	}
 
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "AvailabilityZone"},
@@ -42,7 +42,7 @@ func ParseEC2Instance(name string, data string) (cf types.ValueMap, err error) {
 	}
 	cf[name+"AvailabilityZone"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "PrivateDnsName"},
@@ -58,7 +58,7 @@ func ParseEC2Instance(name string, data string) (cf types.ValueMap, err error) {
 	}
 	cf[name+"PrivateDnsName"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "PrivateIp"},
@@ -74,7 +74,7 @@ func ParseEC2Instance(name string, data string) (cf types.ValueMap, err error) {
 	}
 	cf[name+"PrivateIp"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "PublicDnsName"},
@@ -90,7 +90,7 @@ func ParseEC2Instance(name string, data string) (cf types.ValueMap, err error) {
 	}
 	cf[name+"PublicDnsName"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "PublicIp"},

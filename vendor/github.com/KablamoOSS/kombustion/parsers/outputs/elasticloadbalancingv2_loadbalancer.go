@@ -1,18 +1,18 @@
 package outputs
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 )
 
-func ParseElasticLoadBalancingV2LoadBalancer(name string, data string) (cf types.ValueMap, err error) {
+func ParseElasticLoadBalancingV2LoadBalancer(name string, data string) (cf plugins.ValueMap, err error) {
 	
-	var resource, output types.ValueMap
+	var resource, output plugins.ValueMap
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
 	}
 	
-	cf = types.ValueMap{
-		name: types.ValueMap{
+	cf = plugins.ValueMap{
+		name: plugins.ValueMap{
 			"Description": name + " Object",
 			"Value": map[string]interface{}{
 				"Ref": name,
@@ -26,7 +26,7 @@ func ParseElasticLoadBalancingV2LoadBalancer(name string, data string) (cf types
 	}
 
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "CanonicalHostedZoneID"},
@@ -42,7 +42,7 @@ func ParseElasticLoadBalancingV2LoadBalancer(name string, data string) (cf types
 	}
 	cf[name+"CanonicalHostedZoneID"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "DNSName"},
@@ -58,7 +58,7 @@ func ParseElasticLoadBalancingV2LoadBalancer(name string, data string) (cf types
 	}
 	cf[name+"DNSName"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "LoadBalancerFullName"},
@@ -74,7 +74,7 @@ func ParseElasticLoadBalancingV2LoadBalancer(name string, data string) (cf types
 	}
 	cf[name+"LoadBalancerFullName"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "LoadBalancerName"},
@@ -90,7 +90,7 @@ func ParseElasticLoadBalancingV2LoadBalancer(name string, data string) (cf types
 	}
 	cf[name+"LoadBalancerName"] = output
 	
-	output = types.ValueMap{
+	output = plugins.ValueMap{
 		"Description": name + " Object",
 		"Value": map[string]interface{}{
 			"Fn::GetAtt": []string{name, "SecurityGroups"},

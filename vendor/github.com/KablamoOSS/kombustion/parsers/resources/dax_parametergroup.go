@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 )
 
@@ -28,7 +28,7 @@ func NewDAXParameterGroup(properties DAXParameterGroupProperties, deps ...interf
 	}
 }
 
-func ParseDAXParameterGroup(name string, data string) (cf types.ValueMap, err error) {
+func ParseDAXParameterGroup(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource DAXParameterGroup
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -39,7 +39,7 @@ func ParseDAXParameterGroup(name string, data string) (cf types.ValueMap, err er
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

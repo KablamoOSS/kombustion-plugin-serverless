@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -32,7 +32,7 @@ func NewGuardDutyMember(properties GuardDutyMemberProperties, deps ...interface{
 	}
 }
 
-func ParseGuardDutyMember(name string, data string) (cf types.ValueMap, err error) {
+func ParseGuardDutyMember(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource GuardDutyMember
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -43,7 +43,7 @@ func ParseGuardDutyMember(name string, data string) (cf types.ValueMap, err erro
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

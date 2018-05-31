@@ -52,3 +52,11 @@
 [prune]
   go-tests = true
   unused-packages = true
+
+[[constraint]]
+  name = "gopkg.in/AlecAivazis/survey.v1"
+  version = "1.5.3"
+
+[[constraint]]
+  name = "github.com/google/go-github"
+  version = "15.0.0"

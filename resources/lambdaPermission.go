@@ -4,7 +4,7 @@ import (
 	"log"
 
 	cfResources "github.com/KablamoOSS/kombustion/parsers/resources"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	yaml "github.com/KablamoOSS/yaml"
 )
 
@@ -17,12 +17,12 @@ type LambdaPermissionConfig struct {
 		Principal        interface{} `yaml:"Principal,omitempty"`
 		SourceAccount    interface{} `yaml:"SourceAccount,omitempty"`
 		SourceArn        interface{} `yaml:"SourceArn,omitempty"`
-		SourceApiGateway interface{} `yaml:"SourceApiGateway,omitempty"`
+		SourceAPIGateway interface{} `yaml:"SourceApiGateway,omitempty"`
 	} `yaml:"Properties"`
 }
 
 // ParseLambdaPermission -
-func ParseLambdaPermission(name string, data string) (cf types.ValueMap, err error) {
+func ParseLambdaPermission(name string, data string) (cf plugins.ValueMap, err error) {
 	// Parse the config data
 	var config LambdaPermissionConfig
 	if err = yaml.Unmarshal([]byte(data), &config); err != nil {
@@ -44,7 +44,7 @@ func ParseLambdaPermission(name string, data string) (cf types.ValueMap, err err
 
 	sourceArn := config.Properties.SourceArn
 	if sourceArn == nil {
-		if config.Properties.SourceApiGateway != nil {
+		if config.Properties.SourceAPIGateway != nil {
 			sourceArn = map[string]interface{}{
 				"Fn::Join": []interface{}{
 					"", []interface{}{
@@ -53,7 +53,7 @@ func ParseLambdaPermission(name string, data string) (cf types.ValueMap, err err
 						":",
 						map[string]string{"Ref": "AWS::AccountId"},
 						":",
-						config.Properties.SourceApiGateway,
+						config.Properties.SourceAPIGateway,
 						"/*",
 					},
 				},
@@ -61,7 +61,7 @@ func ParseLambdaPermission(name string, data string) (cf types.ValueMap, err err
 		}
 	}
 
-	cf = types.ValueMap{
+	cf = plugins.ValueMap{
 		(name): cfResources.NewLambdaPermission(
 			cfResources.LambdaPermissionProperties{
 				Action:           action,
@@ -83,7 +83,7 @@ func (this LambdaPermissionConfig) Validate() {
 	if props.FunctionName == nil {
 		log.Println("WARNING: LambdaPermissionConfig - Missing required field 'FunctionName'")
 	}
-	if props.SourceArn == nil && props.SourceApiGateway == nil {
+	if props.SourceArn == nil && props.SourceAPIGateway == nil {
 		log.Println("WARNING: LambdaPermissionConfig - Must provide one of: 'SourceArn', 'SourceApiGateway'")
 	}
 }

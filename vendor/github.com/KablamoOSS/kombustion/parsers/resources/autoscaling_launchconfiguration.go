@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -43,7 +43,7 @@ func NewAutoScalingLaunchConfiguration(properties AutoScalingLaunchConfiguration
 	}
 }
 
-func ParseAutoScalingLaunchConfiguration(name string, data string) (cf types.ValueMap, err error) {
+func ParseAutoScalingLaunchConfiguration(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource AutoScalingLaunchConfiguration
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -54,7 +54,7 @@ func ParseAutoScalingLaunchConfiguration(name string, data string) (cf types.Val
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 

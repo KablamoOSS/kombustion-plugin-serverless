@@ -2,7 +2,7 @@ package resources
 
 import (
 	yaml "github.com/KablamoOSS/yaml"
-	"github.com/KablamoOSS/kombustion/types"
+	"github.com/KablamoOSS/kombustion/plugins"
 	"log"
 	"fmt"
 )
@@ -36,7 +36,7 @@ func NewApiGatewayAuthorizer(properties ApiGatewayAuthorizerProperties, deps ...
 	}
 }
 
-func ParseApiGatewayAuthorizer(name string, data string) (cf types.ValueMap, err error) {
+func ParseApiGatewayAuthorizer(name string, data string) (cf plugins.ValueMap, err error) {
 	var resource ApiGatewayAuthorizer
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return
@@ -47,7 +47,7 @@ func ParseApiGatewayAuthorizer(name string, data string) (cf types.ValueMap, err
 		}
 		return
 	}
-	cf = types.ValueMap{name: resource}
+	cf = plugins.ValueMap{name: resource}
 	return
 }
 
