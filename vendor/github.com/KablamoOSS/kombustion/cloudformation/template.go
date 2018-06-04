@@ -20,26 +20,26 @@ import (
 
 // YamlConfig -
 type YamlConfig struct {
-	AWSTemplateFormatVersion string            `yaml:"AWSTemplateFormatVersion,omitempty"`
-	Description              string            `yaml:"Description,omitempty"`
-	Parameters               plugins.ValueMap  `yaml:"Parameters,omitempty"`
-	Mappings                 plugins.ValueMap  `yaml:"Mappings,omitempty"`
-	Conditions               plugins.ValueMap  `yaml:"Conditions,omitempty"`
-	Transform                plugins.ValueMap  `yaml:"Transform,omitempty"`
-	Resources                types.ResourceMap `yaml:"Resources"`
-	Outputs                  plugins.ValueMap  `yaml:"Outputs,omitempty"`
+	AWSTemplateFormatVersion string               `yaml:"AWSTemplateFormatVersion,omitempty"`
+	Description              string               `yaml:"Description,omitempty"`
+	Parameters               types.TemplateObject `yaml:"Parameters,omitempty"`
+	Mappings                 types.TemplateObject `yaml:"Mappings,omitempty"`
+	Conditions               types.TemplateObject `yaml:"Conditions,omitempty"`
+	Transform                types.TemplateObject `yaml:"Transform,omitempty"`
+	Resources                types.ResourceMap    `yaml:"Resources"`
+	Outputs                  types.TemplateObject `yaml:"Outputs,omitempty"`
 }
 
 // YamlCloudformation -
 type YamlCloudformation struct {
-	AWSTemplateFormatVersion string           `yaml:"AWSTemplateFormatVersion,omitempty"`
-	Description              string           `yaml:"Description,omitempty"`
-	Parameters               plugins.ValueMap `yaml:"Parameters,omitempty"`
-	Mappings                 plugins.ValueMap `yaml:"Mappings,omitempty"`
-	Conditions               plugins.ValueMap `yaml:"Conditions,omitempty"`
-	Transform                plugins.ValueMap `yaml:"Transform,omitempty"`
-	Resources                plugins.ValueMap `yaml:"Resources"`
-	Outputs                  plugins.ValueMap `yaml:"Outputs,omitempty"`
+	AWSTemplateFormatVersion string               `yaml:"AWSTemplateFormatVersion,omitempty"`
+	Description              string               `yaml:"Description,omitempty"`
+	Parameters               types.TemplateObject `yaml:"Parameters,omitempty"`
+	Mappings                 types.TemplateObject `yaml:"Mappings,omitempty"`
+	Conditions               types.TemplateObject `yaml:"Conditions,omitempty"`
+	Transform                types.TemplateObject `yaml:"Transform,omitempty"`
+	Resources                types.TemplateObject `yaml:"Resources"`
+	Outputs                  types.TemplateObject `yaml:"Outputs,omitempty"`
 }
 
 type GenerateParams struct {
@@ -51,7 +51,7 @@ type GenerateParams struct {
 }
 
 // ParserMap - a map of parsers
-type ParserMap map[string]plugins.ParserFunc
+type ParserMap map[string]types.ParserFunc
 
 var resourceParsers ParserMap
 var outputParsers ParserMap
@@ -143,7 +143,7 @@ func GenerateYamlStack(params GenerateParams) (out YamlCloudformation, err error
 	}
 
 	// compile the cloudformation
-	var outputs, resources, mappings plugins.ValueMap
+	var outputs, resources, mappings types.TemplateObject
 	if resources, err = yamlTemplateCF(config.Resources, resourceParsers, true); err != nil {
 		return
 	}
@@ -192,7 +192,7 @@ func GenerateYamlStack(params GenerateParams) (out YamlCloudformation, err error
 	return
 }
 
-func addBaseResources(baseResources plugins.ValueMap, configResources types.ResourceMap) (combinedResource types.ResourceMap) {
+func addBaseResources(baseResources types.TemplateObject, configResources types.ResourceMap) (combinedResource types.ResourceMap) {
 	combinedResource = configResources
 	for k, v := range baseResources {
 		if obj, err := json.Marshal(v); err == nil {
@@ -206,8 +206,8 @@ func addBaseResources(baseResources plugins.ValueMap, configResources types.Reso
 	return
 }
 
-func yamlTemplateCF(resources types.ResourceMap, parsers ParserMap, warn bool) (compiled plugins.ValueMap, err error) {
-	compiled = make(plugins.ValueMap)
+func yamlTemplateCF(resources types.ResourceMap, parsers ParserMap, warn bool) (compiled types.TemplateObject, err error) {
+	compiled = make(types.TemplateObject)
 
 	for resourceName, resource := range resources {
 		if resource.Condition != nil { // if there is a condition on the source resource, warn the user
@@ -231,7 +231,7 @@ func yamlTemplateCF(resources types.ResourceMap, parsers ParserMap, warn bool) (
 			return
 		}
 
-		var output plugins.ValueMap
+		var output types.TemplateObject
 		if output, err = parser(resourceName, string(resourseData)); err != nil {
 			log.WithFields(log.Fields{
 				"resource": resourceName,

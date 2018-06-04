@@ -4,7 +4,7 @@ import (
 	"log"
 
 	cfResources "github.com/KablamoOSS/kombustion/parsers/resources"
-	"github.com/KablamoOSS/kombustion/plugins"
+	kombustionTypes "github.com/KablamoOSS/kombustion/types"
 	yaml "github.com/KablamoOSS/yaml"
 )
 
@@ -22,10 +22,11 @@ type LambdaPermissionConfig struct {
 }
 
 // ParseLambdaPermission -
-func ParseLambdaPermission(name string, data string) (cf plugins.ValueMap, err error) {
+func ParseLambdaPermission(ctx map[string]interface{}, name string, data string) (cf kombustionTypes.TemplateObject) {
 	// Parse the config data
 	var config LambdaPermissionConfig
-	if err = yaml.Unmarshal([]byte(data), &config); err != nil {
+	if err := yaml.Unmarshal([]byte(data), &config); err != nil {
+		log.Fatal(err)
 		return
 	}
 
@@ -61,7 +62,7 @@ func ParseLambdaPermission(name string, data string) (cf plugins.ValueMap, err e
 		}
 	}
 
-	cf = plugins.ValueMap{
+	cf = kombustionTypes.TemplateObject{
 		(name): cfResources.NewLambdaPermission(
 			cfResources.LambdaPermissionProperties{
 				Action:           action,
@@ -73,7 +74,6 @@ func ParseLambdaPermission(name string, data string) (cf plugins.ValueMap, err e
 			},
 		),
 	}
-
 	return
 }
 

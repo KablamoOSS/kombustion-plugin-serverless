@@ -11,7 +11,7 @@ import (
 	"plugin"
 	"runtime"
 
-	"github.com/KablamoOSS/kombustion/plugins"
+	"github.com/KablamoOSS/kombustion/types"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -74,8 +74,8 @@ func downloadPlugin(pluginname string) error {
 	return nil
 }
 
-func loadPlugins() (resources, outputs, mappings map[string]plugins.ParserFunc) {
-	resources, outputs, mappings = make(map[string]plugins.ParserFunc), make(map[string]plugins.ParserFunc), make(map[string]plugins.ParserFunc)
+func loadPlugins() (resources, outputs, mappings map[string]types.ParserFunc) {
+	resources, outputs, mappings = make(map[string]types.ParserFunc), make(map[string]types.ParserFunc), make(map[string]types.ParserFunc)
 
 	pluginBaseDir := ""
 	if len(os.Getenv("PLUGINS")) > 0 {
@@ -111,7 +111,7 @@ func loadPlugins() (resources, outputs, mappings map[string]plugins.ParserFunc) 
 	return
 }
 
-func loadPlugin(filename, pluginDir string, resources, outputs, mappings map[string]plugins.ParserFunc) {
+func loadPlugin(filename, pluginDir string, resources, outputs, mappings map[string]types.ParserFunc) {
 	if filepath.Ext(filename) != ".so" && filepath.Ext(filename) != ".dll" && filepath.Ext(filename) != ".dylib" {
 		return
 	}
@@ -151,7 +151,7 @@ func loadPlugin(filename, pluginDir string, resources, outputs, mappings map[str
 		}).Warn("error reading resource plugin")
 	}
 
-	for k, v := range *r.(*map[string]plugins.ParserFunc) {
+	for k, v := range *r.(*map[string]types.ParserFunc) {
 		if _, ok := resources[k]; ok { // Check for duplicates
 			log.WithFields(log.Fields{
 				"resource": k,
@@ -160,7 +160,7 @@ func loadPlugin(filename, pluginDir string, resources, outputs, mappings map[str
 			resources[k] = v
 		}
 	}
-	for k, v := range *o.(*map[string]plugins.ParserFunc) {
+	for k, v := range *o.(*map[string]types.ParserFunc) {
 		if _, ok := outputs[k]; ok { // Check for duplicates
 			log.WithFields(log.Fields{
 				"output": k,
@@ -169,7 +169,7 @@ func loadPlugin(filename, pluginDir string, resources, outputs, mappings map[str
 			outputs[k] = v
 		}
 	}
-	for k, v := range *m.(*map[string]plugins.ParserFunc) {
+	for k, v := range *m.(*map[string]types.ParserFunc) {
 		if _, ok := mappings[k]; ok { // Check for duplicates
 			log.WithFields(log.Fields{
 				"mapping": k,
