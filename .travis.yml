@@ -16,6 +16,9 @@ script:
   # Get the name of the app
   APP="${PWD##*/}"
 
+  # Get this tag as the version
+  VERSION=$(git describe --abbrev=0 --tags)
+
   # Ensure a fresh build folder
   rm -rf build && mkdir build
   # Compile
