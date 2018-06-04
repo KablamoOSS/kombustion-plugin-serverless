@@ -31,7 +31,7 @@ func Register() []byte {
 			Description: "A Serverless Plugin",
 			TypeMappings: []types.TypeMapping{
 				{
-					Name:        "Kablamo::Serverless::Function::Permission",
+					Name:        "Serverless::Function::Permission",
 					Description: "Creates a permission for a function.",
 					Config:      resources.LambdaPermissionConfig{},
 				},
