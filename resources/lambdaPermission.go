@@ -3,7 +3,7 @@ package resources
 import (
 	"log"
 
-	cfResources "github.com/KablamoOSS/kombustion/parsers/resources"
+	cfResources "github.com/KablamoOSS/kombustion/pkg/parsers/resources"
 	kombustionTypes "github.com/KablamoOSS/kombustion/types"
 	yaml "github.com/KablamoOSS/yaml"
 )

@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/KablamoOSS/kombustion-plugin-serverless/resources"
-	"github.com/KablamoOSS/kombustion/plugins/api"
-	"github.com/KablamoOSS/kombustion/plugins/api/types"
+	"github.com/KablamoOSS/kombustion/pkg/plugins/api"
+	"github.com/KablamoOSS/kombustion/pkg/plugins/api/types"
 )
 
 var (

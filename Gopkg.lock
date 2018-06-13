@@ -2,7 +2,7 @@
 
 
 [[projects]]
-  branch = "ok/rfc-0001"
+  branch = "master"
   name = "github.com/KablamoOSS/kombustion"
   packages = [
     "manifest",
@@ -15,7 +15,7 @@
     "printer",
     "types"
   ]
-  revision = "ff8659c21581431a5a8a0237e4992afebfec1c72"
+  revision = "95b943e480348656dabf04dd4ee0d341b7ffb99c"
 
 [[projects]]
   name = "github.com/KablamoOSS/yaml"
