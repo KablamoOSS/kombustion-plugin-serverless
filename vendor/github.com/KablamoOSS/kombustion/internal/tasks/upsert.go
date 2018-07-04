@@ -1,10 +1,15 @@
 package tasks
 
 import (
+	"fmt"
+	"log"
+
 	printer "github.com/KablamoOSS/go-cli-printer"
 	"github.com/KablamoOSS/kombustion/internal/cloudformation"
 	"github.com/KablamoOSS/kombustion/internal/cloudformation/tasks"
 	"github.com/KablamoOSS/kombustion/internal/manifest"
+	"github.com/KablamoOSS/kombustion/internal/plugins"
+	"github.com/KablamoOSS/kombustion/internal/plugins/lock"
 	"github.com/aws/aws-sdk-go/aws"
 	awsCF "github.com/aws/aws-sdk-go/service/cloudformation"
 	"github.com/urfave/cli"
@@ -14,7 +19,7 @@ import (
 var UpsertFlags = []cli.Flag{
 	cli.StringSliceFlag{
 		Name:  "param, p",
-		Usage: "cloudformation parameters. eg. [ --param Env=dev --param BucketName=test ]",
+		Usage: "cloudformation parameters. eg `BucketName=test`",
 	},
 	cli.BoolFlag{
 		Name:  "no-base-outputs, b",
@@ -26,33 +31,76 @@ var UpsertFlags = []cli.Flag{
 	},
 	cli.StringSliceFlag{
 		Name:  "capability",
-		Usage: "set capabilities for the upsert, eg [ --capability CAPABILITY_IAM ]",
+		Usage: "set capabilities for the upsert eg `CAPABILITY_IAM`",
 	},
 }
 
 func init() {
-	UpsertFlags = append(CloudFormationStackFlags)
+	UpsertFlags = append(CloudFormationStackFlags, UpsertFlags...)
 }
 
 // Upsert a stack
 func Upsert(c *cli.Context) {
-	printer.Step("Upserting stack")
-	manifest := manifest.FindAndLoadManifest()
+	printer.Step("Upsert Stack")
+	printer.Progress("Kombusting")
+
+	fileName := c.Args().Get(0)
+	if fileName == "" {
+		printer.Fatal(
+			fmt.Errorf("Can't upsert file, no source template provided"),
+			fmt.Sprintf(
+				"Add the path to the source template file you want to generate like: `kombustion upsert template.yaml`.",
+			),
+			"",
+		)
+	}
+
+	lockFile, err := lock.FindAndLoadLock()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	manifestFile := manifest.FindAndLoadManifest()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// load all plugins
+	loadedPlugins := plugins.LoadPlugins(manifestFile, lockFile)
+
+	// if in devMode optionally load a devMode plugin
+	devPluginPath := c.GlobalString("load-plugin")
+
+	if devPluginPath != "" {
+		devPluginLoaded := plugins.LoadDevPlugin(devPluginPath)
+		loadedPlugins = append(loadedPlugins, devPluginLoaded)
+	}
+
+	region := c.String("region")
+	if region == "" {
+		// If no region was provided by the cli flag, check for the default in the manifest
+		if manifestFile.Region != "" {
+			region = manifestFile.Region
+		}
+	}
 
 	cfClient := tasks.GetCloudformationClient(
 		c.GlobalString("profile"),
-		c.String("region"),
+		region,
 	)
 
 	paramMap := cloudformation.GetParamMap(c)
 
+	environment := c.String("environment")
+
+	printer.Progress("Generating template")
 	// Template generation parameters
 	generateParams := cloudformation.GenerateParams{
-		Filename:           c.Args().Get(0),
-		EnvFile:            c.String("env-file"),
-		Env:                c.String("env"),
+		Filename:           fileName,
+		Env:                environment,
 		DisableBaseOutputs: c.Bool("no-base-outputs"),
 		ParamMap:           paramMap,
+		Plugins:            loadedPlugins,
 	}
 
 	capabilities := getCapabilities(c)
@@ -60,14 +108,13 @@ func Upsert(c *cli.Context) {
 	// Cloudformation Stack parameters
 	var parameters []*awsCF.Parameter
 
-	stackName := c.Args().Get(0)
-	if len(c.String("stack-name")) > 0 {
-		stackName = c.String("stack-name")
-	}
+	stackName := cloudformation.GetStackName(manifestFile, fileName, environment, c.String("stack-name"))
+
+	printer.Progress("Upserting template")
 	if len(c.String("url")) > 0 {
 		// TODO: We probably need to download the template to determine what params
 		// it needs, and filter the available params only to those
-		parameters = cloudformation.ResolveParametersS3(c, manifest)
+		parameters = cloudformation.ResolveParametersS3(c, manifestFile)
 
 		templateURL := c.String("url")
 
@@ -81,7 +128,7 @@ func Upsert(c *cli.Context) {
 	} else {
 
 		templateBody, cfYaml := tasks.GenerateYamlTemplate(generateParams)
-		parameters = cloudformation.ResolveParameters(c, cfYaml, manifest)
+		parameters = cloudformation.ResolveParameters(c, cfYaml, manifestFile)
 
 		tasks.UpsertStack(
 			templateBody,

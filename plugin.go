@@ -42,7 +42,6 @@ func Register() []byte {
 
 // Resources for this plugin
 var Resources = map[string]func(
-	ctx map[string]interface{},
 	name string,
 	data string,
 ) []byte{
@@ -51,14 +50,12 @@ var Resources = map[string]func(
 
 // Outputs for this plugin
 var Outputs = map[string]func(
-	ctx map[string]interface{},
 	name string,
 	data string,
 ) []byte{}
 
 // Mappings for this plugin
 var Mappings = map[string]func(
-	ctx map[string]interface{},
 	name string,
 	data string,
 ) []byte{}

@@ -11,7 +11,6 @@ import (
 	"github.com/KablamoOSS/go-cli-printer"
 	"github.com/KablamoOSS/kombustion/internal/plugins/lock"
 	"github.com/mholt/archiver"
-	log "github.com/sirupsen/logrus"
 )
 
 // InstallPlugins - Get the lock file and then call installPluginsWithLock
@@ -26,7 +25,7 @@ func InstallPlugins() error {
 	updatedLockFile, installErrors := installPluginsWithLock(lockFile)
 	if len(installErrors) > 0 {
 		for _, err := range installErrors {
-			log.Error(err)
+			printer.Error(err, "", "")
 		}
 		printer.Fatal(err, "Error installing plugins", "")
 	}
@@ -62,7 +61,7 @@ func installPluginsWithLock(lockFile *lock.Lock) (updatedLockFile *lock.Lock, in
 
 // installPlugin - Install an individual plugin
 func installPlugin(plugin lock.Plugin) (updatedPlugin lock.Plugin, installErrors []error) {
-	printer.SubStep(fmt.Sprintf("Installing %s", plugin.Name), 1, false)
+	printer.SubStep(fmt.Sprintf("Installing %s", plugin.Name), 1, false, false)
 
 	updatedPlugin = plugin
 	for i, resolved := range plugin.Resolved {
@@ -74,7 +73,11 @@ func installPlugin(plugin lock.Plugin) (updatedPlugin lock.Plugin, installErrors
 				plugin.Version,
 				resolved.OperatingSystem,
 				resolved.Architecture,
-			), 2, true)
+			),
+				2,
+				true,
+				false,
+			)
 		} else {
 			var couldInstallFromCache bool
 			updatedResolved := resolved
@@ -82,7 +85,7 @@ func installPlugin(plugin lock.Plugin) (updatedPlugin lock.Plugin, installErrors
 			// Check the local cache for a file
 			foundInCache, cacheFile, err := findPluginInCache(plugin, resolved)
 			if err != nil {
-				log.Fatal(err)
+				printer.Fatal(err, "", "")
 				installErrors = append(installErrors, err)
 			}
 
@@ -93,7 +96,11 @@ func installPlugin(plugin lock.Plugin) (updatedPlugin lock.Plugin, installErrors
 					plugin.Version,
 					resolved.OperatingSystem,
 					resolved.Architecture,
-				), 2, false)
+				),
+					2,
+					false,
+					false,
+				)
 
 				var cacheErrors []error
 				couldInstallFromCache, cacheErrors = installFromCache(cacheFile, plugin, resolved)
@@ -113,7 +120,7 @@ func installPlugin(plugin lock.Plugin) (updatedPlugin lock.Plugin, installErrors
 		}
 	}
 
-	printer.SubStep(fmt.Sprintf("Installed %s", plugin.Name), 2, true)
+	printer.SubStep(fmt.Sprintf("Installed %s", plugin.Name), 2, true, false)
 	return updatedPlugin, installErrors
 }
 
@@ -198,7 +205,10 @@ func downloadPlugin(plugin lock.Plugin, resolved lock.PluginResolution) (updated
 			resolved.OperatingSystem,
 			resolved.Architecture,
 		),
-		2, false)
+		2,
+		false,
+		false,
+	)
 
 	updatedResolved = resolved
 	return updatedResolved, downloadErrors

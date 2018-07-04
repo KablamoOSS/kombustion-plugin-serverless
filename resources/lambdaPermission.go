@@ -22,7 +22,7 @@ type LambdaPermissionConfig struct {
 }
 
 // ParseLambdaPermission -
-func ParseLambdaPermission(ctx map[string]interface{}, name string, data string) (cf kombustionTypes.TemplateObject) {
+func ParseLambdaPermission(name string, data string) (cf kombustionTypes.TemplateObject) {
 	// Parse the config data
 	var config LambdaPermissionConfig
 	if err := yaml.Unmarshal([]byte(data), &config); err != nil {
@@ -71,6 +71,7 @@ func ParseLambdaPermission(ctx map[string]interface{}, name string, data string)
 				FunctionName:     config.Properties.FunctionName,
 				SourceAccount:    config.Properties.SourceAccount,
 				EventSourceToken: config.Properties.EventSourceToken,
+				MyCustomProperty: "Look at me, i'm defined in the plugin, but not the host",
 			},
 		),
 	}

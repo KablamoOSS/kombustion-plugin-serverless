@@ -22,11 +22,11 @@ type LambdaPermission struct {
 // LambdaPermission Properties
 type LambdaPermissionProperties struct {
 	Action           interface{} `yaml:"Action"`
-	EventSourceToken interface{} `yaml:"EventSourceToken,omitempty"`
 	FunctionName     interface{} `yaml:"FunctionName"`
 	Principal        interface{} `yaml:"Principal"`
 	SourceAccount    interface{} `yaml:"SourceAccount,omitempty"`
 	SourceArn        interface{} `yaml:"SourceArn,omitempty"`
+	MyCustomProperty        interface{} `yaml:"MyCustomProperty,omitempty"`
 }
 
 // NewLambdaPermission constructor creates a new LambdaPermission
@@ -39,7 +39,7 @@ func NewLambdaPermission(properties LambdaPermissionProperties, deps ...interfac
 }
 
 // ParseLambdaPermission parses LambdaPermission
-func ParseLambdaPermission(ctx map[string]interface{}, name string, data string) (cf types.TemplateObject, err error) {
+func ParseLambdaPermission(name string, data string) (cf types.TemplateObject, err error) {
 	var resource LambdaPermission
 	if err = yaml.Unmarshal([]byte(data), &resource); err != nil {
 		return

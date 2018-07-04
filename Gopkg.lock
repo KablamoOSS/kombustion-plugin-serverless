@@ -15,7 +15,7 @@
     "printer",
     "types"
   ]
-  revision = "95b943e480348656dabf04dd4ee0d341b7ffb99c"
+  revision = "78b00ec31c23fe64eb1a728afa466d3c2e2767d9"
 
 [[projects]]
   name = "github.com/KablamoOSS/yaml"
