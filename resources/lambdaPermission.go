@@ -70,8 +70,6 @@ func ParseLambdaPermission(name string, data string) (cf kombustionTypes.Templat
 				SourceArn:        sourceArn,
 				FunctionName:     config.Properties.FunctionName,
 				SourceAccount:    config.Properties.SourceAccount,
-				EventSourceToken: config.Properties.EventSourceToken,
-				MyCustomProperty: "Look at me, i'm defined in the plugin, but not the host",
 			},
 		),
 	}
